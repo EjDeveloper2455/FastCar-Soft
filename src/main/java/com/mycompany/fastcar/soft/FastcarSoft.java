@@ -3,7 +3,8 @@
  */
 
 package com.mycompany.fastcar.soft;
-
+import Inicio.Login;
+import Clases.Parametros;
 /**
  *
  * @author Dell
@@ -11,6 +12,6 @@ package com.mycompany.fastcar.soft;
 public class FastcarSoft {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        new Login().setVisible(true);
     }
 }
