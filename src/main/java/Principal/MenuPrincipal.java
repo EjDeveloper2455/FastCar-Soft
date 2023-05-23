@@ -196,11 +196,11 @@ public class MenuPrincipal extends JFrame {
                     dialogMensaje = new Mensajeria(btnMensaje, menuPrincipal);
                     dialogMensaje.setVisible(true);
                     estadoBtnMensaje = true;
-                    btnMensaje.setContentAreaFilled(true);
+                    //btnMensaje.setContentAreaFilled(true);
                 } else {
                     dialogMensaje.dispose();
                     estadoBtnMensaje = false;
-                    btnMensaje.setContentAreaFilled(true);
+                    //btnMensaje.setContentAreaFilled(true);
                 }
             }
         });
@@ -261,7 +261,7 @@ public class MenuPrincipal extends JFrame {
                                 for (int j = 0; j < iconText.length; j++) alto += 50;
                                 
                                 SubMenu subMenu = new SubMenu(menuPrincipal,panelLateral,btnIconos[i],nuevoIconText,nuevoIconText);
-                                subMenu.setBounds(200, btnIconos[i].getY(), 200, alto);
+                                //subMenu.setBounds(200, btnIconos[i].getY(), 200, alto);
                             }
                         }
                     }

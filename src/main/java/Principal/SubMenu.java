@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -33,7 +34,7 @@ public class SubMenu extends JDialog {
         setLocationRelativeTo(null);
         getContentPane().setLayout(null);
         setUndecorated(true);
-
+        setModal(true);
         btnSelect = 0;
         JPanel panel = new JPanel();
         panel.setBackground(new Color(33, 37, 41));
@@ -41,6 +42,12 @@ public class SubMenu extends JDialog {
         panel.setBorder(new LineBorder(Color.white, 1));
         panel.setLayout(null);
         getContentPane().add(panel);
+        
+        JLabel lbTitulo = new JLabel(btn.getText());
+        lbTitulo.setBounds(20,5,260,30);
+        lbTitulo.setFont(new Font("Times New Roman", 1, 16));
+        lbTitulo.setForeground(Color.white);
+        panel.add(lbTitulo);
 
         JButton btnSalir = new JButton(new ImageIcon(getClass().getResource("/imagenes/salir2.png")));
         btnSalir.addActionListener(new ActionListener() {
@@ -100,7 +107,7 @@ public class SubMenu extends JDialog {
             iconosY += 50;
         }
         setSize(200, iconosY);
-        setBounds(0, 0, 200, iconosY);
+        setBounds(btn.getX()+btn.getWidth()+80, btn.getY()+3, 200, iconosY+20);
         setVisible(true);
     }
 

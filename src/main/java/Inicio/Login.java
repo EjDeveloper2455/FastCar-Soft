@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import Clases.Parametros;
+import Clases.Peticion;
 import Clases.TextPrompt;
 
 import Principal.MenuPrincipal;
@@ -12,6 +13,8 @@ import Principal.MenuPrincipal;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 
 public class Login extends JFrame implements KeyListener {
@@ -23,7 +26,6 @@ public class Login extends JFrame implements KeyListener {
 	protected int intento;
 	private Parametros info;
 	private Object intentoUser[][];
-        
         public static void main(String[] args) {
             new Login().setVisible(true);
         }
@@ -72,7 +74,7 @@ public class Login extends JFrame implements KeyListener {
 		panelPrincipal.setLayout(null);
 		panelPrincipal.setFocusable(true);
 
-		JLabel lbLogo = new JLabel(new ImageIcon(getClass().getResource("/imagenes/favicon.png")));
+		JLabel lbLogo = new JLabel(new ImageIcon(getClass().getResource("/imagenes/favicon.png").toString()));
 		lbLogo.setBounds(50, 50, 47, 35);
 		panelPrincipal.add(lbLogo);
 
@@ -226,7 +228,18 @@ public class Login extends JFrame implements KeyListener {
 	}
 
 	protected void ingresar() {
-		
+            JSONObject datos = new JSONObject();
+            datos.put("email", txtUsuario.getText());
+            datos.put("password", String.valueOf(txtPass.getPassword()));
+            try{
+               JSONObject response = Peticion.post(info.getApiPath()+"/api/user/login", datos);
+               
+               info.setToken(response.get("token").toString());
+               dispose();
+               new MenuPrincipal(info).setVisible(true);
+            }catch(Exception exp){
+                JOptionPane.showMessageDialog(null, "Credenciales incorrectas");
+            }
 	}
 
 
@@ -253,8 +266,8 @@ public class Login extends JFrame implements KeyListener {
 			boolean capsAtivo = Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
 			lbCaps.setVisible(capsAtivo);
 		}
-		lbLinea1.setBorder(new LineBorder(Color.white, 1));
-		lbLinea2.setBorder(new LineBorder(Color.white, 1));
+		lbLinea1.setBorder(new LineBorder(Color.black, 1));
+		lbLinea2.setBorder(new LineBorder(Color.black, 1));
 		lbUserNo.setText(null);
 		lbPassNo.setText(null);
 		// JOptionPane.showMessageDialog(null, e.getKeyCode());
