@@ -107,7 +107,7 @@ public class SubMenu extends JDialog {
             iconosY += 50;
         }
         setSize(200, iconosY);
-        setBounds(btn.getX()+btn.getWidth()+80, btn.getY()+3, 200, iconosY+20);
+        setBounds(btn.getX()+btn.getWidth()+80, btn.getY()-80, 200, iconosY+20);
         setVisible(true);
     }
 

@@ -17,15 +17,19 @@ import Clases.Parametros;
 
 public class PanelInicio extends PanelPadre{
 	
+	private JTextPane textPane;
 	public PanelInicio(final MenuPrincipal menuPrincipal) {
 		super(menuPrincipal);
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setText("token: "+info.getToken());
+		textPane = new JTextPane();
+		
 		textPane.setBounds(41, 584, 862, 65);
 		add(textPane);
 		
 		setVisible(false);
+	}
+	public void login() {
+		textPane.setText("sucursal: "+info.getSucursal());
 	}
 	@Override
 	protected void redimensionar() {

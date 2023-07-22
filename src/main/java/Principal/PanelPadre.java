@@ -1,7 +1,9 @@
 package Principal;
 
 import java.awt.Color;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
@@ -20,4 +22,21 @@ public abstract class PanelPadre extends JPanel{
 		info = menuPrincipal.getInfo();
 	}
 	protected abstract void redimensionar();
+	
+	public ImageIcon obtenerImagen(String urlImagen) {
+		try {
+			java.net.URL url = new java.net.URL(urlImagen);
+            
+            return new ImageIcon(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return null;
+	}
+	public ImageIcon redimensionarImg(ImageIcon imgIcon, int ancho, int alto) {
+        Image imgEscalada = imgIcon.getImage().getScaledInstance(ancho,
+                alto, Image.SCALE_SMOOTH);
+        return new ImageIcon(imgEscalada);
+	}
+	public void login() {}
 }

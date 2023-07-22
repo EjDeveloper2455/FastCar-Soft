@@ -4,6 +4,7 @@
 
 package com.mycompany.fastcar.soft;
 import Inicio.Login;
+import Principal.MenuPrincipal;
 import Clases.Parametros;
 /**
  *
@@ -12,6 +13,6 @@ import Clases.Parametros;
 public class FastcarSoft {
 
     public static void main(String[] args) {
-        new Login().setVisible(true);
+        new MenuPrincipal().setVisible(true);
     }
 }

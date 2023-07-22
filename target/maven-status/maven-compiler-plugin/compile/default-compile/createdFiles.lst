@@ -6,6 +6,7 @@ Principal\MenuPrincipal$6.class
 Principal\SubMenu$2.class
 Principal\SubMenu$1.class
 Inicio\Login.class
+Principal\NotificationReceiver$1.class
 Principal\PanelPadre.class
 Principal\MenuPrincipal$2.class
 Inicio\Login$3.class
@@ -25,3 +26,4 @@ Inicio\Login$1.class
 Principal\MenuPrincipal.class
 Principal\SubMenu$3.class
 Principal\MenuPrincipal$7.class
+Principal\NotificationReceiver.class
