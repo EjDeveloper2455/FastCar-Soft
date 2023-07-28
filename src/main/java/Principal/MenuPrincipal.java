@@ -105,12 +105,15 @@ public class MenuPrincipal extends JFrame {
         panelPrincipal.setBounds(200, 40, 1000, 660);
         contentPane.add(panelPrincipal);
         
+        //JOptionPane.showMessageDialog(null, "Se inicia");
+        
         //Navegacion entre paneles-----------------------------------------------------------
         
         panelEmpleado = new PanelEmpleado(this);
         panelInicio = new PanelInicio(this);
         panelVehiculos = new Vehiculos(this,true);
         panelSolicitud = new SOLICITUD(this);
+        
         
         panels = new PanelPadre[]{panelInicio,panelEmpleado, panelVehiculos,panelSolicitud};
         for (int i = 0; i < panels.length; i++) {

@@ -257,7 +257,7 @@ public class Login extends JDialog implements KeyListener {
 	public void registrarPC(String rol,String ip,Json response) {
 		if(rol.equals("Administrador") || rol.equals("Gerente de sucursal")) {
 			try {
-				List<JSONObject> sucursales = Peticion.get("http://localhost:8080/api/sucursal/", "").getArrayList();
+				List<JSONObject> sucursales = Peticion.get(menuPrincipal.getInfo().getApiPath()+"/api/sucursal/", "").getArrayList();
 				String opciones[] = new String[sucursales.size()];
 				int i = 0;
 				for (JSONObject data : sucursales) {
