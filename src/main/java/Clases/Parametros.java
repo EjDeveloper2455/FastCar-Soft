@@ -15,7 +15,7 @@ public class Parametros {
 	public Parametros() {
 		token = null;
 		usuario = null;
-		apiPath = "http://localhost:8080";
+		apiPath = "http://34.16.133.9:8080";
 		primaryColor = new Color(33,37,41);
 		secondColor = new Color(86,89,92);
 		sucursal = -1;

@@ -26,6 +26,7 @@ import javax.swing.table.TableColumn;
 
 import com.toedter.calendar.JDateChooser;
 
+import Clases.ColorearFilasIntercaladas;
 import Clases.Json;
 import Clases.ModeloTabla;
 import Clases.Peticion;
@@ -116,6 +117,8 @@ public class PanelEmpleado extends PanelPadre {
         table.setModel(new ModeloTabla(new Object[][] {},
 	        	new String[] {"DNI", "Nombre Completo", "Cargo", "Departamento", "Estado"}
 	        ));
+        table.setRowHeight(28);
+		table.setDefaultRenderer(Object.class, new ColorearFilasIntercaladas(info.getSecondColor(),info.getPrimaryColor(),Color.white));
         
         JScrollPane scrollTabla = new JScrollPane(table);
         scrollTabla.setBounds(10, 120, 980, 530);

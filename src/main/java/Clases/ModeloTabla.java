@@ -42,6 +42,7 @@ public class ModeloTabla extends DefaultTableModel{
     public ModeloTabla(Json data,String key[],String colum[]){
         this.colum=colum;
         this.datos = new Object[data.longitud()][key.length];
+        System.out.println(data.toArrayString());
         List<JSONObject> list = data.getArrayList();
         int index = 0;
         for (JSONObject jsonData : list) {

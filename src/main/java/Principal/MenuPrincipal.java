@@ -22,6 +22,7 @@ import Clases.Json;
 import Clases.Parametros;
 import Empleado.PanelEmpleado;
 import Inicio.Login;
+import Solicitud.SOLICITUD;
 import Vehiculo.Vehiculos;
 import Web.PanelWeb;
 
@@ -45,7 +46,7 @@ public class MenuPrincipal extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane, panelLateral, panelPrincipal, panelCabecera;
-    private PanelPadre panels[],panelEmpleado,panelInicio,panelVehiculos;
+    private PanelPadre panels[],panelEmpleado,panelInicio,panelVehiculos,panelSolicitud;
     private JButton btnIconos[];
     private MenuPrincipal menuPrincipal;
     protected Mensajeria dialogMensaje;
@@ -93,10 +94,10 @@ public class MenuPrincipal extends JFrame {
         this.info = new Parametros();
         btnSelect = 0;
 
-        String iconText[] = {"Inicio","Empleados", "Vehículos","Administración Web","Nuevas Placas", "Documentos",  "Alquiler",
+        String iconText[] = {"Inicio","Empleados", "Vehículos","Solicitud","Nuevas Placas", "Documentos",  "Alquiler",
             "Reporte","Administración"};
         
-        String iconPath[] = {"Inicio","Empleados","Vehiculos","Web", "Clientes", "Documentos",  "Alquiler",
+        String iconPath[] = {"Inicio","Empleados","Vehiculos","web", "Clientes", "Documentos",  "Alquiler",
             "Reportes","Administracion"};
         
         cardLayout = new CardLayout();
@@ -109,8 +110,9 @@ public class MenuPrincipal extends JFrame {
         panelEmpleado = new PanelEmpleado(this);
         panelInicio = new PanelInicio(this);
         panelVehiculos = new Vehiculos(this,true);
+        panelSolicitud = new SOLICITUD(this);
         
-        panels = new PanelPadre[]{panelInicio,panelEmpleado, panelVehiculos,new PanelWeb(this)};
+        panels = new PanelPadre[]{panelInicio,panelEmpleado, panelVehiculos,panelSolicitud};
         for (int i = 0; i < panels.length; i++) {
             panelPrincipal.add(panels[i], "panel" + iconText[i]);
         }

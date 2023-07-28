@@ -8,16 +8,23 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Iterator;
 
 import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.text.JTextComponent;
 
 import com.toedter.calendar.JDateChooser;
 
+import Clases.ColorearFilasIntercaladas;
 import Clases.Json;
 import Clases.ModeloTabla;
 import Clases.Peticion;
@@ -37,8 +44,8 @@ public class Vehiculos extends PanelPadre {
 	private javax.swing.JPanel jpmuestratabla;
 	private javax.swing.JTextField txtbuscar;
 	private Vehiculos vehiculos;
-	private Json modelos;
-	private int modeloIndex;
+	private Json modelos, jsonVehiculos;
+	private int modeloIndex,vehiculoIndex;
 	
 	public Vehiculos(MenuPrincipal menuPrincipal, boolean par) {
 		super(menuPrincipal);
@@ -51,6 +58,7 @@ public class Vehiculos extends PanelPadre {
 	// Code">//GEN-BEGIN:initComponents
 	private void initComponents() {		
 		modeloIndex = -1;
+		vehiculoIndex = -1;
 		
 		btnnuevomodelo = new javax.swing.JButton("Nuevo modelo",
 				new ImageIcon(getClass().getResource("/imagenes/agg.png")));
@@ -69,11 +77,9 @@ public class Vehiculos extends PanelPadre {
 				new ImageIcon(getClass().getResource("/imagenes/addCar.png")));
 		btnnuevovehiculo.setBackground(info.getPrimaryColor());
 		btnnuevovehiculo.setForeground(Color.white);
-		btnnuevovehiculo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new DialogNuevoVehiculo(menuPrincipal).setVisible(true);
-			}
-		});
+		btnnuevovehiculo.addActionListener(v ->
+				new NuevoVehiculo(menuPrincipal,this).setVisible(true));
+		
 		btnnuevovehiculo.setFont(new java.awt.Font("Roboto Medium", 1, 14)); // NOI18N
 		add(btnnuevovehiculo);
 
@@ -116,14 +122,16 @@ public class Vehiculos extends PanelPadre {
 		jpbarradisenoVehiculo.setBounds(jpbarradisenoModelo.getWidth() + jpbarradisenoModelo.getX() + 5, 0, 620, 40);
 
 		jTableVehiculo.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 0, 0), null));
-		jTableVehiculo.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+		jTableVehiculo.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+		jTableVehiculo.getTableHeader().setFont(new Font("Arial Black", Font.BOLD, 14));
 		jTableVehiculo.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
 		}, new String[] { "Vin", "Placa", "Marca", "Modelo" }));
 		scrollVehiculo.setViewportView(jTableVehiculo);
 
 		jTableModelo.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 0, 0), null));
-		jTableModelo.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+		jTableModelo.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+		jTableModelo.getTableHeader().setFont(new Font("Arial Black", Font.BOLD, 14));
 		jTableModelo.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
 		}, new String[] { "Marca", "Modelo", "Tipo" }));
@@ -186,10 +194,78 @@ public class Vehiculos extends PanelPadre {
 		cmbBuscarPor = new JComboBox(new String[] { "ID", "Placa", "Modelo", "Marca" });
 		cmbBuscarPor.setBounds(796, 59, 194, 25);
 		add(cmbBuscarPor);
+		
 	}// </editor-fold>//GEN-END:initComponents
 	
 	public void login() {
 		setComponents();
+		
+	}
+	
+	public void mostrarOpcionesVehiculo(Json jsonV) {
+		
+		javax.swing.JDialog dialog = new javax.swing.JDialog(menuPrincipal,true);
+		dialog.setSize(300,300);
+		dialog.setLocationRelativeTo(jTableVehiculo);
+		dialog.setResizable(false);
+		dialog.setUndecorated(true);
+		dialog.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, dialog.getWidth(), dialog.getHeight());
+		panel.setLayout(null);
+		panel.setBackground(Color.white);
+		panel.setBorder(new LineBorder(info.getPrimaryColor(),2));
+		dialog.getContentPane().add(panel);
+		
+		JButton  btnCloseDialog = new JButton(new ImageIcon(getClass().getResource("/imagenes/Salirn.png")));
+		btnCloseDialog.setRolloverIcon(new ImageIcon(getClass().getResource("/imagenes/Salir.png")));
+		btnCloseDialog.setBounds(dialog.getWidth()-32,2,30,40);
+		btnCloseDialog.setBorder(null);
+		btnCloseDialog.setContentAreaFilled(false);
+		btnCloseDialog.addActionListener(v -> dialog.dispose());
+		panel.add(btnCloseDialog);
+		
+		JLabel lbTitulo = new JLabel("Opciones de vehículo");
+		lbTitulo.setBounds(10, 5, 280, 40);
+		lbTitulo.setFont(new Font("Arial Black",1,18));
+		panel.add(lbTitulo);
+		
+		JLabel lb1[] = {new JLabel("Vin:"), new JLabel("Placa:"),
+				new JLabel("Marca:"),new JLabel("Modelo:")};
+		JLabel lb2[] = {new JLabel(jsonV.get("vin").toString()), new JLabel(jsonV.get("placa").toString()),
+				new JLabel(jsonV.get("marca").toString()),new JLabel(jsonV.get("modelo").toString())};
+		
+		int lbY = lbTitulo.getY()+lbTitulo.getHeight()+5;
+		for (int i = 0; i < lb2.length; i++) {
+			lb1[i].setBounds(5, lbY, 70, 18);
+			lb2[i].setBounds(lb1[i].getWidth()+lb1[i].getX()+5, lbY, 175, 18);
+			lb1[i].setFont(new Font("Arial Black",1,14));
+			lb2[i].setFont(new Font("Arial",1,14));
+			panel.add(lb1[i]);
+			panel.add(lb2[i]);
+			lbY += 20;
+		}
+		
+		JButton btnOpciones[] = new JButton[3];
+		String buttonText[] = {"Solicitar Revision","Modificar Vehículo","Inhabilitar Vehículo"};
+		int btnOpcionesY = lbY+20;
+		for (int i = 0; i < btnOpciones.length; i++) {
+			btnOpciones[i] = new JButton(buttonText[i]);
+			btnOpciones[i].setBounds(10, btnOpcionesY, 280, 50);
+			btnOpciones[i].setBackground(info.getPrimaryColor());
+			btnOpciones[i].setForeground(Color.white);
+			btnOpciones[i].addActionListener(e -> {
+				if(e.getSource() == btnOpciones[1]) {
+					new NuevoVehiculo(menuPrincipal, this,jsonV).setVisible(true);
+					dialog.dispose();
+				}
+			});
+			btnOpcionesY += 46;
+			panel.add(btnOpciones[i]);
+		}
+		
+		dialog.setVisible(true);
 	}
 
 	public void setModelos() {
@@ -199,6 +275,23 @@ public class Vehiculos extends PanelPadre {
 				modelos = Peticion.get(info.getApiPath() + "/api/modelo/", "");
 				jTableModelo.setModel(new ModeloTabla(modelos, new String[] { "marca", "modelo", "tipo" },
 						new String[] { "Marca", "Modelo", "Tipo" }));
+				jTableModelo.setRowHeight(28);
+				jTableModelo.setDefaultRenderer(Object.class, new ColorearFilasIntercaladas(info.getSecondColor(),info.getPrimaryColor(),Color.white));
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		});
+		hilo.start();
+	}
+	public void setVehiculos() {
+		Thread hilo = new Thread(() -> {
+			try {
+
+				jsonVehiculos = Peticion.get(info.getApiPath() + "/api/vehiculo/", "");
+				jTableVehiculo.setModel(new ModeloTabla(jsonVehiculos, new String[] { "vin", "placa", "marca", "modelo" },
+						new String[] { "Vin", "Placa", "Marca", "Modelo" }));
+				jTableVehiculo.setRowHeight(28);
+				jTableVehiculo.setDefaultRenderer(Object.class, new ColorearFilasIntercaladas(info.getSecondColor(),info.getPrimaryColor(),Color.white));
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -208,18 +301,37 @@ public class Vehiculos extends PanelPadre {
 
 	private void setComponents() {
 		setModelos();
-		jTableModelo.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int selectedRow = jTableModelo.getSelectedRow();
-                if(modeloIndex>-1) {
-                	new DialogModelo(menuPrincipal, vehiculos,new Json(modelos.get(selectedRow))).setVisible(true);
-                	modeloIndex = -1;
-                }else {
-                	modeloIndex = selectedRow;
-                }
-            }
-        });
+		setVehiculos();
+		try {
+			jTableModelo.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mouseClicked(MouseEvent e) {
+	                int selectedRow = jTableModelo.getSelectedRow();
+	                if(modeloIndex>-1 && modeloIndex==selectedRow) {
+	                	new DialogModelo(menuPrincipal, vehiculos,new Json(modelos.get(selectedRow))).setVisible(true);
+	                	modeloIndex = -1;
+	                }else {
+	                	modeloIndex = selectedRow;
+	                }
+	            }
+	        });
+			jTableVehiculo.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mouseClicked(MouseEvent e) {
+	                int selectedRow = jTableVehiculo.getSelectedRow();
+	                if(vehiculoIndex>-1 && vehiculoIndex==selectedRow) {
+	                	//new DialogModelo(menuPrincipal, vehiculos,new Json(modelos.get(selectedRow))).setVisible(true);
+	                	mostrarOpcionesVehiculo(new Json(jsonVehiculos.get(vehiculoIndex)));
+	                	
+	                	vehiculoIndex = -1;
+	                }else {
+	                	vehiculoIndex = selectedRow;
+	                }
+	            }
+	        });
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	@Override
@@ -227,4 +339,5 @@ public class Vehiculos extends PanelPadre {
 		// TODO Auto-generated method stub
 
 	}
+	
 }
