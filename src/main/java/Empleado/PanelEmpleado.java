@@ -98,13 +98,9 @@ public class PanelEmpleado extends PanelPadre {
         
         panelPrincipal.add(panelVer);
         
-        btnNuevo = new JButton("Nuevo Empleado");
+        btnNuevo = new JButton("Nuevo Empleado",new ImageIcon(getClass().getResource("/imagenes/nuevo-empleado.png")));
         btnNuevo.setBackground(new Color(255, 255, 255));
         btnNuevo.setFont(new Font("Roboto Medium", Font.BOLD, 14));
-        btnNuevo.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        	}
-        });
         btnNuevo.setBounds(10, 10, 200, 40);
         panelVer.add(btnNuevo);
         
@@ -179,16 +175,14 @@ public class PanelEmpleado extends PanelPadre {
     }// </editor-fold>//GEN-END:initComponents
     
     public void setComponenst(){
-        btnNuevo.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                JDialog dialog = new JDialog();
-                dialog.setSize(880,682);
+        btnNuevo.addActionListener(v ->{
+                JDialog dialog = new JDialog(menuPrincipal,true);
+                dialog.setSize(920,680);
                 dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                dialog.setLocationRelativeTo(null);
-                dialog.getContentPane().add(new DialogNuevoEmpleado(dialog));
+                dialog.setLocationRelativeTo(menuPrincipal);
+                dialog.getContentPane().add(new NuevoEmpleado(dialog,menuPrincipal));
                 dialog.setVisible(true);
-            }
-        });
+            });
     }
     
     public void login() {
