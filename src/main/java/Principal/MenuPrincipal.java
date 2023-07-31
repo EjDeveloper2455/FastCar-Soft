@@ -2,6 +2,7 @@ package Principal;
 
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.desktop.ScreenSleepEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -59,6 +60,7 @@ public class MenuPrincipal extends JFrame {
 	private AbstractButton btnLogin;
 	private JLabel lbNombreUsuario;
 	private JLabel lbCargo;
+	private boolean isLogeado;
 
     /**
      * Launch the application.
@@ -93,6 +95,7 @@ public class MenuPrincipal extends JFrame {
         estadoBtnMensaje = false;
         this.info = new Parametros();
         btnSelect = 0;
+        isLogeado = false;
 
         String iconText[] = {"Inicio","Empleados", "Vehículos","Solicitud","Nuevas Placas", "Documentos",  "Alquiler",
             "Reporte","Administración"};
@@ -332,6 +335,8 @@ public class MenuPrincipal extends JFrame {
                 }
             }
         });
+        
+        setLogin();
 
     }
     
@@ -359,6 +364,29 @@ public class MenuPrincipal extends JFrame {
 	   panelEmpleado.login();
 	   panelInicio.login();
 	   panelVehiculos.login();
+	   isLogeado = true;
+   }
+   
+   public void setLogin() {
+	   Runnable runnable = () -> {
+		   while(true) {
+			   try {
+				Thread.sleep(60000);
+				if(isLogeado) {
+					   panelEmpleado.login();
+					   panelInicio.login();
+					   panelVehiculos.login();
+				   }
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		   }
+		   
+		   /**/
+	   };
+	   Thread miThread = new Thread(runnable);
+	   miThread.start();
    }
     
     public Parametros getInfo() {

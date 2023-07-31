@@ -57,14 +57,15 @@ public class NuevoEmpleado extends javax.swing.JPanel {
 	private JLabel lbImgCargando;
 	private JLabel lbTextoCargando;
 	private JButton btnGuardar;
-
-	public NuevoEmpleado(javax.swing.JDialog dialog, MenuPrincipal menuPrincipal) {
+	PanelEmpleado panelEmpleado;
+	public NuevoEmpleado(javax.swing.JDialog dialog, MenuPrincipal menuPrincipal,PanelEmpleado panelEmpleado) {
 
 		@SuppressWarnings("unused")
 		FileInputStream archivoFoto;
 		this.dialog = dialog;
 		this.menuPrincipal = menuPrincipal;
 		this.imgFoto = null;
+		this.panelEmpleado = panelEmpleado;
 		jsonCargo = new Json();
 		jsonDepto = new Json();
 		jsonSucursal = new Json();
@@ -483,6 +484,7 @@ public class NuevoEmpleado extends javax.swing.JPanel {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			panelEmpleado.login();
 			dialog.dispose();
 		});
 		hilo.start();

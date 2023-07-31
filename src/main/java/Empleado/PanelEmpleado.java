@@ -180,7 +180,7 @@ public class PanelEmpleado extends PanelPadre {
                 dialog.setSize(920,680);
                 dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                 dialog.setLocationRelativeTo(menuPrincipal);
-                dialog.getContentPane().add(new NuevoEmpleado(dialog,menuPrincipal));
+                dialog.getContentPane().add(new NuevoEmpleado(dialog,menuPrincipal,this));
                 dialog.setVisible(true);
             });
     }
